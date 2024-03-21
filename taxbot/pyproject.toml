@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "taxbot"
+version = "0.1.0"
+description = "Bot for changing tax payment passwords"
+authors = ["TJ Palanca <mail@tjpalanca.com>"]
+license = "AGPL-3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
