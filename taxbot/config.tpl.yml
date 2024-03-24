@@ -1,0 +1,25 @@
+old_credentials: &old_credentials
+  password: op://Personal/Old Chinabank Tax Payment Password/password
+  challenge:
+    question: op://Personal/Old Chinabank Tax Payment Password/challenge question 
+    answer: op://Personal/Old Chinabank Tax Payment Password/challenge answer
+
+new_credentials: &new_credentials
+  password: op://Personal/New Chinabank Tax Payment Password/password
+  challenge:
+    question: op://Personal/New Chinabank Tax Payment Password/challenge question 
+    answer: op://Personal/New Chinabank Tax Payment Password/challenge answer
+
+credentials:
+  cbclicerdc:
+    old: *old_credentials
+    new: *new_credentials
+  cbclicepup:
+    old: *old_credentials
+    new: *new_credentials
+  cbcpiscrdc:
+    old: *old_credentials
+    new: *new_credentials
+  cbcpiscpup:
+    old: *old_credentials
+    new: *new_credentials

@@ -1,2 +1,5 @@
 # Playwright Log
 playwright-log.txt
+
+# Secrets
+config.yml
