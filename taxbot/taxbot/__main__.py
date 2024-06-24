@@ -47,8 +47,8 @@ for user, cred in credentials.items():
     browser.fill_text("#newanswer", txt=cred["new"]["challenge"]["answer"])
     browser.fill_text("#cqconfirmans", txt=cred["new"]["challenge"]["answer"])
 
-    # browser.set_selector_prefix("frame[name='bottomFrame'] >>>")
-    # browser.click("input#btnOk")
+    browser.set_selector_prefix("frame[name='bottomFrame'] >>>")
+    browser.click("input#btnOk")
     browser.wait_for_load_state(PageLoadStates.networkidle)
 
     # Logout

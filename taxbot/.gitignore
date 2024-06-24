@@ -3,3 +3,6 @@ playwright-log.txt
 
 # Secrets
 config.yml
+
+# Caches 
+**.pyc
