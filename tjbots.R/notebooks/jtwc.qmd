@@ -1,0 +1,67 @@
+---
+title: "JTWC Portal"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+-   The website is [here](https://www.metoc.navy.mil/jtwc/jtwc.html).
+-   Inspecting the website, it seems that JS calls upon sub-endpoints to fetch their content.
+-   The content is actually populated by [this RSS feed](https://www.metoc.navy.mil/jtwc/rss/jtwc.rss).
+
+```{r}
+library(httr2)
+library(purrr)
+library(rvest)
+library(stringr)
+
+request("https://www.metoc.navy.mil/jtwc/rss/jtwc.rss") %>% 
+  req_perform() -> response
+
+warning_text_url <- 
+  response %>% 
+  resp_body_xml() %>% 
+  html_elements("item") %>% 
+  keep(~str_detect(html_text(html_element(., "title")), "Northwest Pacific")) %>% 
+  html_element("description") %>% 
+  html_text() %>% 
+  xml2::read_html() %>% 
+  html_element("a:contains('Warning Text')") %>% 
+  html_attr("href") 
+
+warning_text <- 
+  request(warning_text_url) %>% 
+  req_perform() %>% 
+  resp_body_string()
+
+```
+
+```{r}
+
+library(ellmer)
+
+extract_jtwc.chat <- chat_openai(
+  system_prompt = interpolate_file(pkg_file("prompts/prompt-extract-jtwc.md"))
+)
+
+extract_jtwc.chat$chat_structured(
+  warning_text,
+  type = type_object(
+    "Extracted metadata about the text",
+    positions = type_array(
+      "array of positions starting from the current position to the last forecast",
+      type_object(
+        "position object",
+        latitude = type_number("degrees latitude"),
+        longitude = type_number("degrees longitude"),
+        is_long_range = type_boolean("whether this is part of the 'long range outlook'")
+      )
+    ),
+    subject = type_string("the subject specified in the header")
+  )
+)
+
+
+```
+
